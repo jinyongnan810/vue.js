@@ -3,7 +3,7 @@
   <div :class="['task', task.reminder ? 'reminder' : '']">
     <h3>
       {{ task.text }}
-      <i class="fas fa-times"></i>
+      <i @click="$emit('delete-task')" class="fas fa-times"></i>
     </h3>
     <p>{{ task.date.toString() }}</p>
   </div>
@@ -14,6 +14,7 @@ export default {
   props: {
     task: Object,
   },
+  emits: ["delete-task"],
 };
 </script>
 <style scoped>
