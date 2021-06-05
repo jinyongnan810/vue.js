@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Header title="Task Tracker" />
-    <AddTask />
+    <AddTask @add-task="addTask" />
     <Tasks :tasks="tasks" @delete-task="deleteTask" @toggle-task="toggleTask" />
   </div>
 </template>
@@ -30,6 +30,11 @@ export default {
         }
         return t;
       });
+    },
+    addTask(task) {
+      const id = Math.floor(Math.random() * 1000000);
+      task.id = id;
+      this.tasks.unshift(task);
     },
   },
   data() {

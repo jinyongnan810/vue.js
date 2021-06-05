@@ -1,16 +1,21 @@
 <template>
-  <form class="add-form">
+  <form @submit="addTask" class="add-form">
     <div class="form-control">
       <label>Task</label>
-      <input type="text" name="text" placeholder="Add Task" />
+      <input v-model="text" type="text" name="text" placeholder="Add Task" />
     </div>
     <div class="form-control">
       <label>Day & Time</label>
-      <input type="text" name="day" placeholder="Add Day & Time" />
+      <input
+        v-model="date"
+        type="date"
+        name="date"
+        placeholder="Add Day & Time"
+      />
     </div>
     <div class="form-control form-control-check">
       <label>Set Reminder</label>
-      <input type="checkbox" name="reminder" />
+      <input v-model="reminder" type="checkbox" name="reminder" />
     </div>
 
     <input type="submit" value="Save Task" class="btn btn-block" />
@@ -20,6 +25,31 @@
 <script>
 export default {
   name: "AddTask",
+  data() {
+    return {
+      text: "",
+      date: "",
+      reminder: false,
+    };
+  },
+  methods: {
+    addTask(e) {
+      e.preventDefault();
+      if (!this.text || !this.date) {
+        return;
+      }
+      const task = {
+        text: this.text,
+        date: new Date(this.date),
+        reminder: this.reminder,
+      };
+      this.$emit("add-task", task);
+      this.text = "";
+      this.date = "";
+      this.reminder = false;
+    },
+  },
+  emits: ["add-task"],
 };
 </script>
 <style scoped>
