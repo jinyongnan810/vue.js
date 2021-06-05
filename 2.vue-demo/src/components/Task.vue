@@ -1,6 +1,9 @@
 <template>
   <!-- <div class="task" :class="task.reminder ? 'reminder' : ''"> -->
-  <div :class="['task', task.reminder ? 'reminder' : '']">
+  <div
+    @dblclick="$emit('toggle-task')"
+    :class="['task', task.reminder ? 'reminder' : '']"
+  >
     <h3>
       {{ task.text }}
       <i @click="$emit('delete-task')" class="fas fa-times"></i>
@@ -14,7 +17,7 @@ export default {
   props: {
     task: Object,
   },
-  emits: ["delete-task"],
+  emits: ["delete-task", "toggle-task"],
 };
 </script>
 <style scoped>
