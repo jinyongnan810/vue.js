@@ -1,17 +1,20 @@
 <template>
   <div class="container">
     <Header title="Task Tracker" />
+    <AddTask />
     <Tasks :tasks="tasks" @delete-task="deleteTask" @toggle-task="toggleTask" />
   </div>
 </template>
 
 <script>
 import Header from "./components/Header";
+import AddTask from "./components/AddTask";
 import Tasks from "./components/Tasks";
 export default {
   name: "App",
   components: {
     Header,
+    AddTask,
     Tasks,
   },
   methods: {
