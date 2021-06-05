@@ -1,7 +1,11 @@
 <template>
   <header>
     <h1>{{ title }}</h1>
-    <Button text="Add Task" color="green" />
+    <Button
+      @click="onClick"
+      :text="showAddTask ? 'Hide Form' : 'Add Task'"
+      :color="showAddTask ? 'red' : 'green'"
+    />
   </header>
 </template>
 
@@ -15,6 +19,12 @@ export default {
     title: {
       type: String,
       default: "Hello World",
+    },
+    showAddTask: Boolean,
+  },
+  methods: {
+    onClick() {
+      this.$emit("btn-clicked");
     },
   },
   components: {

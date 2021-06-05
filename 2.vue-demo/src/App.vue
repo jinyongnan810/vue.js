@@ -1,7 +1,11 @@
 <template>
   <div class="container">
-    <Header title="Task Tracker" />
-    <AddTask @add-task="addTask" />
+    <Header
+      @btn-clicked="showAddTask = !showAddTask"
+      :showAddTask="showAddTask"
+      title="Task Tracker"
+    />
+    <AddTask v-if="showAddTask" @add-task="addTask" />
     <Tasks :tasks="tasks" @delete-task="deleteTask" @toggle-task="toggleTask" />
   </div>
 </template>
@@ -40,6 +44,7 @@ export default {
   data() {
     return {
       tasks: [],
+      showAddTask: false,
     };
   },
   created() {
