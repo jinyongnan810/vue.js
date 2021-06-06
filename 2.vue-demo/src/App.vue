@@ -14,6 +14,7 @@
 import Header from "./components/Header";
 import AddTask from "./components/AddTask";
 import Tasks from "./components/Tasks";
+import axios from "axios";
 export default {
   name: "App",
   components: {
@@ -22,23 +23,28 @@ export default {
     Tasks,
   },
   methods: {
-    deleteTask(id) {
+    async deleteTask(id) {
       // console.log(`delete task:${id}`);
+      await axios.delete(`http://localhost:5000/tasks/${id}`);
       this.tasks = this.tasks.filter((t) => t.id !== id);
     },
-    toggleTask(id) {
+    async toggleTask(id) {
       // console.log(`delete task:${id}`);
+
+      const res = await axios.get(`http://localhost:5000/tasks/${id}`);
+      const task = res.data;
+      task.reminder = !task.reminder;
+      await axios.patch(`http://localhost:5000/tasks/${id}`, task);
       this.tasks = this.tasks.map((t) => {
         if (t.id === id) {
-          t.reminder = !t.reminder;
+          t = task;
         }
         return t;
       });
     },
-    addTask(task) {
-      const id = Math.floor(Math.random() * 1000000);
-      task.id = id;
-      this.tasks.unshift(task);
+    async addTask(task) {
+      const res = await axios.post("http://localhost:5000/tasks", task);
+      this.tasks.push(res.data);
     },
   },
   data() {
@@ -47,27 +53,9 @@ export default {
       showAddTask: false,
     };
   },
-  created() {
-    this.tasks = [
-      {
-        id: 1,
-        text: "task1",
-        date: new Date("2021/6/4"),
-        reminder: true,
-      },
-      {
-        id: 2,
-        text: "task2",
-        date: new Date("2021/6/5"),
-        reminder: true,
-      },
-      {
-        id: 3,
-        text: "task3",
-        date: new Date("2021/6/5"),
-        reminder: false,
-      },
-    ];
+  async created() {
+    const res = await axios.get("http://localhost:5000/tasks");
+    this.tasks = res.data;
   },
 };
 </script>

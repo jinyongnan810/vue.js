@@ -8,7 +8,7 @@
       {{ task.text }}
       <i @click="$emit('delete-task')" class="fas fa-times"></i>
     </h3>
-    <p>{{ task.date.toString() }}</p>
+    <p>{{ new Date(task.date).toString() }}</p>
   </div>
 </template>
 <script>
