@@ -5,57 +5,24 @@
       :showAddTask="showAddTask"
       title="Task Tracker"
     />
-    <AddTask v-if="showAddTask" @add-task="addTask" />
-    <Tasks :tasks="tasks" @delete-task="deleteTask" @toggle-task="toggleTask" />
+    <router-view :showAddTask="showAddTask"></router-view>
+    <Footer />
   </div>
 </template>
 
 <script>
 import Header from "./components/Header";
-import AddTask from "./components/AddTask";
-import Tasks from "./components/Tasks";
-import axios from "axios";
+import Footer from "./components/Footer";
 export default {
   name: "App",
   components: {
     Header,
-    AddTask,
-    Tasks,
-  },
-  methods: {
-    async deleteTask(id) {
-      // console.log(`delete task:${id}`);
-      await axios.delete(`http://localhost:5000/tasks/${id}`);
-      this.tasks = this.tasks.filter((t) => t.id !== id);
-    },
-    async toggleTask(id) {
-      // console.log(`delete task:${id}`);
-
-      const res = await axios.get(`http://localhost:5000/tasks/${id}`);
-      const task = res.data;
-      task.reminder = !task.reminder;
-      await axios.patch(`http://localhost:5000/tasks/${id}`, task);
-      this.tasks = this.tasks.map((t) => {
-        if (t.id === id) {
-          t = task;
-        }
-        return t;
-      });
-    },
-    async addTask(task) {
-      const res = await axios.post("http://localhost:5000/tasks", task);
-      this.tasks.push(res.data);
-    },
+    Footer,
   },
   data() {
     return {
-      tasks: [],
       showAddTask: false,
     };
-  },
-  async created() {
-    const res = await axios.get("http://localhost:5000/tasks");
-    this.tasks = res.data;
   },
 };
 </script>
