@@ -2,6 +2,7 @@
   <header>
     <h1>{{ title }}</h1>
     <Button
+      v-if="homePage"
       @click="onClick"
       :text="showAddTask ? 'Hide Form' : 'Add Task'"
       :color="showAddTask ? 'red' : 'green'"
@@ -29,6 +30,15 @@ export default {
   },
   components: {
     Button,
+  },
+  computed: {
+    homePage() {
+      if (this.$route.path === "/") {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
 };
 </script>
